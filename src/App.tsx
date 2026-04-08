@@ -1,12 +1,16 @@
+import { useState } from "react";
 import clsx from "clsx";
 import data from "../data.json";
 
+
+type ReactionType = "Bad" | "Medium" | "Great";
+type CategotyType = "Memory" | "Reaction" | "Verbal" | "Visual";
+
 interface ResultDisplayerProps {
   result: number;
-  reaction: "Bad" | "Medium" | "Great";
+  reaction: ReactionType;
 }
 
-type CategotyType = "Memory" | "Reaction" | "Verbal" | "Visual";
 interface StatItemProps {
   category: CategotyType
   score: number;
@@ -15,13 +19,14 @@ interface StatItemProps {
 
 
 // Action button
-function CallToActionButton({ text }: { text: string }) {
+function CallToActionButton({ text, onUpdateScore }: { text: string, onUpdateScore: () => void }) {
   return (
     <button 
       type="button"
       className="bg-slate-800 text-white font-semibold p-3 
       rounded-4xl cursor-pointer bg-linear-to-b 
       hover:from-(--light-slate-blue) hover:to-(--light-royal-blue)"
+      onClick={onUpdateScore}
     >
       {text}
     </button>
@@ -81,14 +86,38 @@ function ResultDisplayer({ result, reaction }: ResultDisplayerProps) {
 
 
 function ResultCard() {
+  const [dataInfo, setDataInfo] = useState(data.slice());
+  const scores = dataInfo.map( info => (info.score));
+  const scoresSum = scores.reduce((previousScore, currentScore) => previousScore + currentScore, 0)
+
+  const summaryResult = Math.floor(scoresSum / dataInfo.length);
+  
+  const reaction: ReactionType =
+  summaryResult < 50
+    ? "Bad"
+    : summaryResult < 60
+    ? "Medium"
+    : "Great";
+
+  function updateScoresRandomly() {
+    const newData = dataInfo.slice().map(( info => {
+      return {
+        ...info, score: Math.floor(Math.random() * 100)
+      }
+    }));
+
+    setDataInfo(newData);
+
+  }
+
   return (
     <article className="relative flex bg-(--white) rounded-4xl w-3xl">
       <div className="w-1/2 bg-linear-to-b from-(--light-slate-blue) to-(--light-royal-blue) p-12 rounded-4xl">
         <div className="">
           <h1 className="text-2xl text-(--light-lavender) text-center font-semibold mb-8">Your Result</h1>
             <ResultDisplayer 
-              result={76}  
-              reaction="Great"
+              result={summaryResult}  
+              reaction={reaction}
             />
         </div>
       </div>
@@ -99,19 +128,19 @@ function ResultCard() {
             <h2 className="text-slate-800 text-2xl font-semibold mb-6">Summary</h2>
             
             <div className="flex flex-col gap-4">
-              {data.map( el => {
+              {dataInfo.map( stat => {
                 return (
                   <StatItem  
-                    category={el.category as CategotyType}
-                    icon={el.icon}
-                    score={el.score}
+                    category={stat.category as CategotyType}
+                    icon={stat.icon}
+                    score={stat.score}
                   />
                 )
               })}
             </div>
           </div>
 
-          <CallToActionButton text="Continue"  />
+          <CallToActionButton text="Continue" onUpdateScore={updateScoresRandomly}  />
         </div>
       </div>
     </article>
@@ -123,9 +152,17 @@ function ResultCard() {
 function App() {
   return (
     <>
-      <main className="flex items-center justify-center min-h-dvh bg-(--pale-blue)">
-        <ResultCard  />
+      <main className="flex flex-col items-center justify-center min-h-dvh bg-(--pale-blue)">
+        <div>
+          <ResultCard  />
+        </div>
       </main>
+      <footer className="text-center bg-(--pale-blue) py-3">
+        <p className="text-xs">
+          Challenge by 
+          <a href="https://www.frontendmentor.io/challenges" target="_blank" className="underline">Frontend Mentor</a>. 
+          Coded by <a href="https://nitiema-allassane.vercel.app/" target="_blank" className="underline">Nitiema Allassane</a>.</p>
+      </footer>
     </>
   )
 }
