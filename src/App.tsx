@@ -17,7 +17,9 @@ function CallToActionButton({ text }: { text: string }) {
   return (
     <button 
       type="button"
-      className="bg-slate-800 text-white font-semibold p-3 rounded-4xl cursor-pointer"
+      className="bg-slate-800 text-white font-semibold p-3 
+      rounded-4xl cursor-pointer bg-linear-to-b 
+      hover:from-(--light-slate-blue) hover:to-(--light-royal-blue)"
     >
       {text}
     </button>
