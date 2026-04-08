@@ -1,12 +1,14 @@
 import clsx from "clsx";
+import data from "../data.json";
 
 interface ResultDisplayerProps {
   result: number;
   reaction: "Bad" | "Medium" | "Great";
 }
 
+type CategotyType = "Memory" | "Reaction" | "Verbal" | "Visual";
 interface StatItemProps {
-  category: "memory" | "reaction" | "verbal" | "visual";
+  category: CategotyType
   score: number;
   icon: string;
 }
@@ -32,10 +34,10 @@ function StatItem({ category, score, icon }: StatItemProps) {
     <div className={
       clsx(
         "flex justify-between items-center p-3 rounded-lg",
-        category === "memory" && "text-yellow-500 bg-yellow-50",
-        category === "reaction" && "text-red-500 bg-red-50",
-        category === "verbal" && "text-green-500 bg-green-50",
-        category === "visual" && "text-blue-500 bg-blue-50",
+        category === "Memory" && "text-yellow-500 bg-yellow-50",
+        category === "Reaction" && "text-red-500 bg-red-50",
+        category === "Verbal" && "text-green-500 bg-green-50",
+        category === "Visual" && "text-blue-500 bg-blue-50",
       )
     }>
       <div className="flex items-center gap-2">
@@ -43,7 +45,7 @@ function StatItem({ category, score, icon }: StatItemProps) {
           <img src={icon} alt={`${category} icon`} />
         </span>
         <span className="font-medium">
-          {category.charAt(0).toUpperCase() + category.slice(1)}
+          {category}
         </span>
       </div>
 
@@ -97,29 +99,15 @@ function ResultCard() {
             <h2 className="text-slate-800 text-2xl font-semibold mb-6">Summary</h2>
             
             <div className="flex flex-col gap-4">
-              <StatItem  
-                category="reaction"
-                icon="/assets/images/icon-memory.svg"
-                score={80}
-              />
-
-              <StatItem  
-                category="memory"
-                icon="/assets/images/icon-memory.svg"
-                score={80}
-              />
-
-              <StatItem  
-                category="verbal"
-                icon="/assets/images/icon-memory.svg"
-                score={80}
-              />
-
-              <StatItem  
-                category="visual"
-                icon="/assets/images/icon-memory.svg"
-                score={80}
-              />
+              {data.map( el => {
+                return (
+                  <StatItem  
+                    category={el.category as CategotyType}
+                    icon={el.icon}
+                    score={el.score}
+                  />
+                )
+              })}
             </div>
           </div>
 
