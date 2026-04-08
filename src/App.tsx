@@ -68,10 +68,10 @@ function ResultDisplayer({ result, reaction }: ResultDisplayerProps) {
     <>
       <div className="text-center flex flex-col items-center">
         <div 
-          className="w-45 h-45 bg-linear-to-b from-(--violet-blue) to-(--persian-blue) 
-          flex flex-col items-center justify-center rounded-full mb-6"
+          className="w-40 h-40 md:w-45 md:h-45 bg-linear-to-b from-(--violet-blue) to-(--persian-blue) 
+          flex flex-col items-center justify-center rounded-full mb-4 md:mb-6"
         >
-          <h2 className="text-6xl text-white font-bold">{result}</h2>
+          <h2 className="text-5xl md:text-6xl text-white font-bold mb-1">{result}</h2>
           <p className="text-(--light-lavender)">of 100</p>
         </div>
         <h2 className="text-white font-bold text-3xl mb-4">{reaction}</h2>
@@ -111,8 +111,11 @@ function ResultCard() {
   }
 
   return (
-    <article className="relative flex bg-(--white) rounded-4xl w-3xl">
-      <div className="w-1/2 bg-linear-to-b from-(--light-slate-blue) to-(--light-royal-blue) p-12 rounded-4xl">
+    <article className="relative flex flex-col md:flex-row w-full bg-(--white) md:rounded-4xl md:w-3xl">
+      <div 
+        className="md:w-1/2 bg-linear-to-b from-(--light-slate-blue) to-(--light-royal-blue) 
+        p-6 rounded-b-4xl md:p-12 md:rounded-4xl"
+      >
         <div className="">
           <h1 className="text-2xl text-(--light-lavender) text-center font-semibold mb-8">Your Result</h1>
             <ResultDisplayer 
@@ -123,8 +126,8 @@ function ResultCard() {
       </div>
 
       <div className="p-6 flex-1">
-        <div className="flex flex-col justify-between h-full">
-          <div>
+        <div className="flex flex-col md:justify-between md:h-full">
+          <div className="mb-8">
             <h2 className="text-slate-800 text-2xl font-semibold mb-6">Summary</h2>
             
             <div className="flex flex-col gap-4">
@@ -157,11 +160,12 @@ function App() {
           <ResultCard  />
         </div>
       </main>
-      <footer className="text-center bg-(--pale-blue) py-3">
-        <p className="text-xs">
+      <footer className="text-center bg-white md:bg-(--pale-blue) py-3 px-3">
+        <div className="text-xs">
           Challenge by 
-          <a href="https://www.frontendmentor.io/challenges" target="_blank" className="underline">Frontend Mentor</a>. 
-          Coded by <a href="https://nitiema-allassane.vercel.app/" target="_blank" className="underline">Nitiema Allassane</a>.</p>
+          <a href="https://www.frontendmentor.io/challenges" target="_blank" className="underline text-blue-600">Frontend Mentor</a>. 
+          Coded by <a href="https://nitiema-allassane.vercel.app/" target="_blank" className="underline text-blue-600">Nitiema Allassane</a>.
+        </div>
       </footer>
     </>
   )
